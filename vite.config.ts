@@ -4,9 +4,13 @@ import path from 'path';
 import {defineConfig} from 'vite';
 import {viteSingleFile} from 'vite-plugin-singlefile';
 
-export default defineConfig(() => {
+export default defineConfig(({ command }) => {
   return {
-    plugins: [react(), tailwindcss(), viteSingleFile()],
+    plugins: [
+      react(), 
+      tailwindcss(), 
+      command === 'build' ? viteSingleFile() : null
+    ].filter(Boolean),
     resolve: {
       alias: {
         '@': path.resolve(__dirname, '.'),
